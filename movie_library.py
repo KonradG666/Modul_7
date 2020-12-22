@@ -51,3 +51,29 @@ movies = [movie1, movie2, movie3, movie4, movie5]
 series = [serie1, serie2, serie3]
 by_movie_title = sorted(movies, key=lambda movie: movie.title)
 by_serie_title = sorted(series, key=lambda serie: serie.title)
+
+
+def get_movies():
+    film_list = []
+    for movie in by_movie_title:
+        if isinstance(movie, Movies):
+            film_list.append(movie)
+            print(f"- {movie.title}")
+    return film_list
+
+def get_series():
+    series_list = []
+    for serie in by_serie_title:
+        if isinstance(serie, Series):
+            series_list.append(serie)
+            print(f"- {serie.title}")
+    return series_list
+
+def search():
+    text = input("Choose picture You are looking for: ")
+    for movie in movies:
+        if movie.title == text:
+            print(f'{movie}')
+    for serie in series:
+        if serie.title == text:
+            print(f'{serie}')
