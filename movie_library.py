@@ -1,12 +1,5 @@
-from random import randint
+from random import randint, choice
 import time
-
-
-def run():
-    print("**** Bibloteka filmów ****\n" + "-" * 26)
-
-
-run()
 
 now = time.strftime("%d/%m/%Y")
 
@@ -28,8 +21,8 @@ class Movies:
 
 
 class Series(Movies):
-    def __init__(self, season, episode, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, title, year, genre, season, episode):
+        super().__init__(title, year, genre)
         self.season = season
         self.episode = episode
 
@@ -41,39 +34,82 @@ class Series(Movies):
 movie1 = Movies(title="Star Wars - New Hope", year=1977, genre="Sci-fi")
 movie2 = Movies(title="Pulp Fiction", year=1994, genre="crimimal")
 movie3 = Movies(title="Matrix", year=1999, genre="cyber punk")
-movie4 = Movies(title="Dark Knight", year='(2008)', genre="fantasy/drama")
-movie5 = Movies(title="Once Upon a Time in Hollywwod", year='(2019', genre="about nothing")
+movie4 = Movies(title="Dark Knight", year=2008, genre="fantasy/drama")
+movie5 = Movies(title="Once Upon a Time in Hollywood", year=2019, genre="about nothing")
 serie1 = Series(title="Wataha", year=2014, genre="adventure", season=1, episode=1)
 serie2 = Series(title="X-Files", year=1997, genre="criminal/sci-fi", season=2, episode=3)
 serie3 = Series(title="Walking Dead", year=2012, genre="horror/gore", season=4, episode=5, )
 
-movies = [movie1, movie2, movie3, movie4, movie5]
-series = [serie1, serie2, serie3]
-by_movie_title = sorted(movies, key=lambda movie: movie.title)
-by_serie_title = sorted(series, key=lambda serie: serie.title)
+movies_and_series = [movie1, movie2, movie3, movie4, movie5, serie1, serie2, serie3]
+by_title = sorted(movies_and_series, key=lambda picture: picture.title)
+by_release = sorted(movies_and_series, key=lambda picture: picture.year)
 
 
-def get_movies():
-    film_list = []
-    for movie in by_movie_title:
-        if isinstance(movie, Movies):
-            film_list.append(movie)
-            print(f"- {movie.title}")
-    return film_list
+def get_movies(movies_and_series):
+    pictures = []
+    for picture in by_title:
+        if isinstance(picture, Movies):
+            pictures.append(picture)
+            print(f"- {picture.title}")
+    return pictures
 
-def get_series():
-    series_list = []
-    for serie in by_serie_title:
-        if isinstance(serie, Series):
-            series_list.append(serie)
-            print(f"- {serie.title}")
-    return series_list
+
+
 
 def search():
     text = input("Choose picture You are looking for: ")
-    for movie in movies:
-        if movie.title == text:
-            print(f'{movie}')
-    for serie in series:
-        if serie.title == text:
-            print(f'{serie}')
+    for picture in movies_and_series:
+        if picture.title.lower() == text:
+            print(picture)
+
+
+movie4.play()
+movie3.play()
+movie3.play()
+movie3.play()
+movie2.play()
+movie1.play()
+movie3.play()
+movie2.play()
+
+
+def top_title():
+    top = []
+    for picture in movies_and_series:
+        if picture.view_number > 0:
+            top.append(picture.view_number)
+            print(f'{picture} with {picture.view_number} views')
+    return top
+
+def top_3(top):
+    top = []
+    for picture in movies_and_series:
+        if picture.view_number in top[:3]:
+            print(f"{picture} with {picture.view_number} views")
+    return top
+
+
+def generate_views(times=10):
+    for i in range(times):
+        index = random()
+        add_views(index)
+        plays = movies_and_series[index].view_number
+        title = movies_and_series[index].title
+        print(f"View generated for {title} {plays}")
+
+
+def random():
+    elements = len(movies_and_series)
+    return randint(0, elements - 1)
+
+def add_views(index):
+    views = randint(1, 100)
+    return movies_and_series[index].play(views)
+
+def run():
+    print("\t\t**** Bibloteka filmów ****\n" "\t\t"+ "-" * 26)
+    get_movies(movies_and_series)
+    print(f"\t\t**** Najpopularniejsze filmy i seriale dnia {now} ****\n" + "\t\t" + "-" * 59)
+    top_title()
+    top_3(3)
+run()
