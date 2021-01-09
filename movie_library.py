@@ -48,7 +48,6 @@ by_release = sorted(movies_and_series, key=lambda picture: picture.year)
 def get_movies():
     pictures = []
     for picture in by_title:
-        if isinstance(picture, Movies):
           if not isinstance (picture, Series):
             pictures.append(picture)
             print(f"- {picture.title}")
