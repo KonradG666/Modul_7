@@ -45,21 +45,27 @@ by_title = sorted(movies_and_series, key=lambda picture: picture.title)
 by_release = sorted(movies_and_series, key=lambda picture: picture.year)
 
 
-def get_movies(movies_and_series):
+def get_movies():
     pictures = []
     for picture in by_title:
         if isinstance(picture, Movies):
+          if not isinstance (picture, Series):
             pictures.append(picture)
             print(f"- {picture.title}")
     return pictures
 
-
-
+def get_series():
+    pictures = []
+    for picture in by_title:
+        if isinstance(picture, Series):
+            pictures.append(picture)
+            print(f"- {picture.title}")
+    return pictures
 
 def search():
     text = input("Choose picture You are looking for: ")
     for picture in movies_and_series:
-        if picture.title.lower() == text:
+        if picture.title.lower() == text.lower():
             print(picture)
 
 
@@ -68,17 +74,25 @@ movie3.play()
 movie3.play()
 movie3.play()
 movie2.play()
-movie1.play()
 movie3.play()
 movie2.play()
+serie3.play()
+serie2.play()
 
-
-def top_title():
+def top_title(type):
     top = []
-    for picture in movies_and_series:
+    if type == "Movies":
+      for picture in movies_and_series:
         if picture.view_number > 0:
-            top.append(picture.view_number)
-            print(f'{picture} with {picture.view_number} views')
+            if not isinstance(picture, Series):
+              top.append(picture.view_number)
+              print(f'{picture} with {picture.view_number} views')
+    elif type == "Series":
+      for picture in movies_and_series:
+        if picture.view_number > 0:
+            if isinstance(picture, Series):
+              top.append(picture.view_number)
+              print(f'{picture} with {picture.view_number} views')
     return top
 
 def top_3(top):
@@ -108,8 +122,9 @@ def add_views(index):
 
 def run():
     print("\t\t**** Bibloteka filmów ****\n" "\t\t"+ "-" * 26)
-    get_movies(movies_and_series)
+    get_movies()
+    get_series()
     print(f"\t\t**** Najpopularniejsze filmy i seriale dnia {now} ****\n" + "\t\t" + "-" * 59)
-    top_title()
+    top_title("Series")
     top_3(3)
 run()
