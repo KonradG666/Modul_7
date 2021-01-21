@@ -89,7 +89,7 @@ def generate_views(movies_and_series):
         movie.view_number = views
 
 def generate_views_10(movies_and_series):
-    for i in range(100):
+    for i in range(10):
         generate_views(movies_and_series)
 
 generate_views_10(movies_and_series)
