@@ -1,22 +1,20 @@
-from random import randint, choice
+from random import randrange
 import time
 
 now = time.strftime("%d/%m/%Y")
 
-
 class Movies:
-    def __init__(self, title, year, genre):
+    def __init__(self, title, year, genre, view_number=0):
         self.title = title
         self.year = year
         self.genre = genre
-
-        self.view_number = 0
+        self.view_number = view_number
 
     def __str__(self):
         return (f"Choice: {self.title}\n * release date: {self.year}\n * genre: {self.genre}")
 
     def play(self):
-        self.view_number += 1
+        self.view_number = self.view_number + 1
         print(f"Number of watches is {self.view_number:02}")
 
 
@@ -46,20 +44,20 @@ by_release = sorted(movies_and_series, key=lambda picture: picture.year)
 
 
 def get_movies():
-    pictures = []
-    for picture in by_title:
-          if not isinstance (picture, Series):
-            pictures.append(picture)
-            print(f"- {picture.title}")
-    return pictures
+    movies = []
+    for m in by_title:
+          if not isinstance (m, Series):
+            movies.append(m)
+            print(f"- {m.title}")
+    return movies
 
 def get_series():
-    pictures = []
-    for picture in by_title:
-        if isinstance(picture, Series):
-            pictures.append(picture)
-            print(f"- {picture.title}")
-    return pictures
+    series = []
+    for s in by_title:
+        if isinstance(s, Series):
+            series.append(s)
+            print(f"- {s.title}")
+    return series
 
 def search():
     text = input("Choose picture You are looking for: ")
@@ -68,25 +66,15 @@ def search():
             print(picture)
 
 
-movie4.play()
-movie3.play()
-movie3.play()
-movie3.play()
-movie2.play()
-movie3.play()
-movie2.play()
-serie3.play()
-serie2.play()
-
-def top_title(type):
+def top_title(type, type2):
     top = []
     if type == "Movies":
       for picture in movies_and_series:
         if picture.view_number > 0:
-            if not isinstance(picture, Series):
+            if isinstance(picture, Movies):
               top.append(picture.view_number)
               print(f'{picture} with {picture.view_number} views')
-    elif type == "Series":
+    elif type2 == "Series":
       for picture in movies_and_series:
         if picture.view_number > 0:
             if isinstance(picture, Series):
@@ -94,36 +82,24 @@ def top_title(type):
               print(f'{picture} with {picture.view_number} views')
     return top
 
-def top_3(top):
-    top = []
-    for picture in movies_and_series:
-        if picture.view_number in top[:3]:
-            print(f"{picture} with {picture.view_number} views")
-    return top
+def generate_views(movies_and_series):
+        library = randrange(len(movies_and_series))
+        movie = movies_and_series[library]
+        views = randrange(100)
+        movie.view_number = views
 
+def generate_views_10(movies_and_series):
+    for i in range(100):
+        generate_views(movies_and_series)
 
-def generate_views(times=10):
-    for i in range(times):
-        index = random()
-        add_views(index)
-        plays = movies_and_series[index].view_number
-        title = movies_and_series[index].title
-        print(f"View generated for {title} {plays}")
+generate_views_10(movies_and_series)
 
-
-def random():
-    elements = len(movies_and_series)
-    return randint(0, elements - 1)
-
-def add_views(index):
-    views = randint(1, 100)
-    return movies_and_series[index].play(views)
 
 def run():
     print("\t\t**** Bibloteka filmów ****\n" "\t\t"+ "-" * 26)
     get_movies()
     get_series()
     print(f"\t\t**** Najpopularniejsze filmy i seriale dnia {now} ****\n" + "\t\t" + "-" * 59)
-    top_title("Series")
-    top_3(3)
+    top_title("Movies", "Series")
+
 run()
