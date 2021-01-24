@@ -94,12 +94,17 @@ def generate_views_10(movies_and_series):
 
 generate_views_10(movies_and_series)
 
+def top_titles(movies_and_series):
+    plays = movies_and_series
+    plays.sort(key=lambda p: p.view_number)
+    return plays[:3]
 
 def run():
     print("\t\t**** Bibloteka filmów ****\n" "\t\t"+ "-" * 26)
     get_movies()
     get_series()
     print(f"\t\t**** Najpopularniejsze filmy i seriale dnia {now} ****\n" + "\t\t" + "-" * 59)
-    top_title("Movies", "Series")
+    most_popular = top_titles(movies_and_series)
+    
 
 run()
