@@ -11,7 +11,10 @@ class Movies:
         self.view_number = view_number
 
     def __str__(self):
-        return (f"Choice: {self.title}\n * release date: {self.year}\n * genre: {self.genre}")
+        return (f"Choice: {self.title}\n * release date: {self.year}\n * genre: {self.genre}\n * movie: ")
+
+    def __repr__(self):
+        return (f"Choice: {self.title}\n * release date: {self.year}\n * genre: {self.genre}\n")
 
     def play(self):
         self.view_number = self.view_number + 1
@@ -26,7 +29,7 @@ class Series(Movies):
 
     def __str__(self):
         return (
-            f"Choice {self.title}\n * release date: {self.year}\n * genre: {self.genre}\n * content: S{self.season:02}E{self.episode:02}")
+            f"Choice: {self.title}\n * release date: {self.year}\n * genre: {self.genre}\n * content: S{self.season:02}E{self.episode:02}")
 
 
 movie1 = Movies(title="Star Wars - New Hope", year=1977, genre="Sci-fi")
@@ -82,11 +85,12 @@ def top_title(type, type2):
               print(f'{picture} with {picture.view_number} views')
     return top
 
+
 def generate_views(movies_and_series):
-        library = randrange(len(movies_and_series))
-        movie = movies_and_series[library]
-        views = randrange(100)
-        movie.view_number = views
+    library = randrange(len(movies_and_series))
+    movie = movies_and_series[library]
+    views = randrange(100)
+    movie.view_number = views
 
 def generate_views_10(movies_and_series):
     for i in range(10):
@@ -99,12 +103,14 @@ def top_titles(movies_and_series):
     plays.sort(key=lambda p: p.view_number)
     return plays[:3]
 
+
+
 def run():
     print("\t\t**** Bibloteka filmów ****\n" "\t\t"+ "-" * 26)
     get_movies()
     get_series()
     print(f"\t\t**** Najpopularniejsze filmy i seriale dnia {now} ****\n" + "\t\t" + "-" * 59)
+    top_title("Movies", "Series")
     most_popular = top_titles(movies_and_series)
-    
-
+    print(most_popular)
 run()
